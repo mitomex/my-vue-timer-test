@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1>Timer</h1>
-    <p>Total: <input class="input" type="text" v-model="totalTime" /> minute</p>
+    <p>
+      <input class="input" type="text" v-model="minute" /> :
+      <input class="input" type="text" v-model="second" />
+    </p>
     <button v-if="!timer" @click="startTimer">再生</button>
     <button v-if="timer" @click="stopTimer">一時停止</button>
     <button @click="resetTimer">停止</button>
@@ -13,15 +16,24 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 1 * 60
+      minute: 25,
+      second: 0
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     startTimer() {
       this.timer = setInterval(() => {
-        this.totalTime--;
+        if (this.second < 1) {
+          if (this.minute < 1) {
+            this.resetTimer();
+            return;
+          } else {
+            this.minute--;
+            this.second = 59;
+          }
+        }
+        this.second--;
       }, 1000);
     },
     stopTimer() {
@@ -29,20 +41,10 @@ export default {
       this.timer = null;
     },
     resetTimer() {
+      alert("Finish");
       clearInterval(this.timer);
       this.timer = null;
-      this.totalTime = 1 * 60;
-      alert("Reset timer.");
-    }
-  },
-  watch: {
-    totalTime(value) {
-      if (value === 0) {
-        alert("finish");
-        clearInterval(this.timer);
-        this.timer = null;
-        this.totalTime = 1 * 60;
-      }
+      this.second = 60;
     }
   }
 };
