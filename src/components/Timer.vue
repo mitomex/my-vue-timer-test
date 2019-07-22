@@ -1,7 +1,10 @@
 <template>
   <div>
-    <p>Total: {{ displayNumber }}</p>
-    <button @click="startTimer">再生</button>
+    <h1>Timer</h1>
+    <p>Total: {{ displayNumber }} minute</p>
+    <button v-if="!timer" @click="startTimer">再生</button>
+    <button v-if="timer" @click="stopTimer">一時停止</button>
+    <button @click="resetTimer">停止</button>
   </div>
 </template>
 
@@ -23,6 +26,16 @@ export default {
       this.timer = setInterval(() => {
         this.totalTime--;
       }, 1000);
+    },
+    stopTimer() {
+      clearInterval(this.timer);
+      this.timer = null;
+    },
+    resetTimer() {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.totalTime = 1 * 60;
+      alert('Reset timer.')
     }
   },
   watch: {
