@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Timer</h1>
-    <p>Total: {{ displayNumber }} minute</p>
+    <p>Total: <input class="input" type="text" v-model="totalTime" /> minute</p>
     <button v-if="!timer" @click="startTimer">再生</button>
     <button v-if="timer" @click="stopTimer">一時停止</button>
     <button @click="resetTimer">停止</button>
@@ -17,9 +17,6 @@ export default {
     };
   },
   computed: {
-    displayNumber() {
-      return this.totalTime < 10 ? "0" + this.totalTime : this.totalTime;
-    }
   },
   methods: {
     startTimer() {
@@ -35,12 +32,12 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
       this.totalTime = 1 * 60;
-      alert('Reset timer.')
+      alert("Reset timer.");
     }
   },
   watch: {
     totalTime(value) {
-      if (value === -1) {
+      if (value === 0) {
         alert("finish");
         clearInterval(this.timer);
         this.timer = null;
@@ -51,4 +48,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.input {
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid gray;
+  border-left: 0;
+  box-sizing: border-box;
+  font-size: 20px;
+  text-align: center;
+  width: 60px;
+}
+</style>
